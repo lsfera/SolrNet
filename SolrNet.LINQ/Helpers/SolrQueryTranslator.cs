@@ -100,6 +100,18 @@ namespace SolrNet.LINQ.Helpers {
                 return m;
             }
 
+            if (m.Method.Name == "Any")
+            {
+                var startIndex = sb.Length;
+
+                Visit(m.Arguments[0]);
+                Visit(m.Arguments[1]);
+
+                sb.Replace("(", "", startIndex, sb.Length - startIndex).Replace(")", "", startIndex, sb.Length - startIndex);
+                return m;
+            }
+
+
             throw new NotSupportedException(string.Format("The method '{0}' is not supported", m.Method.Name));
         }
 
